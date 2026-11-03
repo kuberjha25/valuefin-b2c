@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { checkLead, isFormKind, readableLead } from '@/lib/lead';
+import { isSmtpConfigured, sendLeadEmail } from '@/lib/mailer';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -12,15 +13,16 @@ function reply(body: Record<string, unknown>, status = 200) {
 }
 
 /**
- * Receives an application from either form, checks it again on the server,
- * and passes it on as JSON to LEAD_WEBHOOK_URL (a CRM, Zapier, Make, n8n, Slack, an Apps Script, anything that takes a POST).
+ * Receives an application from either form, checks it again on the server, then delivers it:
+ * by email over SMTP (when SMTP_HOST and MAIL_TO are set) and/or as JSON to LEAD_WEBHOOK_URL
+ * (a CRM, Zapier, Make, n8n, Slack, an Apps Script, anything that takes a POST).
  */
 export async function POST(request: Request) {
   const length = Number(request.headers.get('content-length') || 0);
   if (length > MAX_BODY_BYTES) return reply({ ok: false, error: 'too_large' }, 413);
 
   const webhook = process.env.LEAD_WEBHOOK_URL;
-  if (!webhook) return reply({ ok: false, error: 'not_configured' }, 503);
+  if (!webhook && !isSmtpConfigured()) return reply({ ok: false, error: 'not_configured' }, 503);
 
   // Read the body, as a form post or as JSON.
   const raw: Record<string, unknown> = {};
@@ -57,19 +59,28 @@ export async function POST(request: Request) {
     readable: readableLead(kind, fields),
   };
 
-  try {
-    const token = process.env.LEAD_WEBHOOK_TOKEN;
-    const res = await fetch(webhook, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...(token ? { 'X-Webhook-Token': token } : {}) },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(10_000),
-      cache: 'no-store',
-    });
-    if (!res.ok) return reply({ ok: false, error: 'upstream' }, 502);
-  } catch {
-    return reply({ ok: false, error: 'upstream' }, 502);
+  // Send by every configured channel at once. The lead counts as delivered if at least one of them took it.
+  const jobs: Promise<void>[] = [];
+  if (isSmtpConfigured()) jobs.push(sendLeadEmail({ kind, fields, readable: payload.readable, page, submittedAt: payload.submittedAt }));
+  if (webhook) jobs.push(postWebhook(webhook, payload));
+
+  const results = await Promise.allSettled(jobs);
+  for (const r of results) {
+    if (r.status === 'rejected') console.error('[lead] delivery failed:', r.reason instanceof Error ? r.reason.message : r.reason);
   }
+  if (!results.some((r) => r.status === 'fulfilled')) return reply({ ok: false, error: 'upstream' }, 502);
 
   return reply({ ok: true });
+}
+
+async function postWebhook(url: string, payload: unknown): Promise<void> {
+  const token = process.env.LEAD_WEBHOOK_TOKEN;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(token ? { 'X-Webhook-Token': token } : {}) },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(10_000),
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error(`webhook answered ${res.status}`);
 }

@@ -6,7 +6,8 @@ import { FORMS, allFields, needOneGroups, type FormKind } from '@/components/for
  * demo note is shown. Read at build time, so rebuild after changing the variables.
  */
 export function isDemoMode(): boolean {
-  return !process.env.LEAD_WEBHOOK_URL && !process.env.NEXT_PUBLIC_FORM_ENDPOINT;
+  const smtp = !!(process.env.SMTP_HOST && process.env.MAIL_TO);
+  return !smtp && !process.env.LEAD_WEBHOOK_URL && !process.env.NEXT_PUBLIC_FORM_ENDPOINT;
 }
 
 export type LeadValue = string | string[];
