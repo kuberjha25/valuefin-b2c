@@ -33,7 +33,7 @@ export const site: SiteConfig = {
   tagline: 'Working capital for new-age India. Never from your cap table.',
   description:
     'Valuefin is an RBI-registered NBFC financing quick-commerce and e-commerce settlements, purchase orders and invoices from large buyers. Working capital with no dilution.',
-  email: 'hello@valuefin.in',
+  email: 'sonali@valuefin.in',
   phone: '',
   cor: '',
   cin: '',

@@ -227,7 +227,7 @@ export function LeadForm({ kind, demo }: { kind: FormKind; demo: boolean }) {
           SEND <span className="a">→</span>
         </button>
         <p className="form-err" role="alert" hidden={!failed}>
-          Something went wrong while sending. Please try again, or email hello@valuefin.in.
+          Something went wrong while sending. Please try again, or email sonali@valuefin.in.
         </p>
         {demo ? (
           <p className="fnote">
