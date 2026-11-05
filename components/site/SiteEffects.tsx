@@ -24,7 +24,7 @@ export function SiteEffects() {
       return;
     }
 
-    // Show an element once 18% of it is visible, or once a screenful-sized slice of a very tall one is.
+    // Show an element once about a fifth of it is visible, or once a screenful-sized slice of a very tall one is.
     const io = new IntersectionObserver(
       (entries) => {
         for (const en of entries) {

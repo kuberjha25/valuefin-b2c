@@ -9,10 +9,7 @@ export type AnswerPiece = string | { href: string; text: string };
 export interface FaqItem {
   q: string;
   a: AnswerPiece[];
-  /**
-   * Set to false to keep a question on the page but out of the structured data.
-   * The cost answer mentions an illustrative rate, which stays out of search listings.
-   */
+  /** Set to false to keep a question on the page but out of the structured data (search listings). */
   schema?: boolean;
 }
 
@@ -67,9 +64,8 @@ export const FAQ: FaqItem[] = [
   },
   {
     q: 'What does it cost?',
-    schema: false,
     a: [
-      'Interest is charged only for the days the money is in use. The planner on our homepage illustrates this at 18% a year, side by side with a 12-month term loan at the same rate. Your actual terms depend on the buyer, the tenor and the structure, and every cost is disclosed in writing before you sign.',
+      'Interest is charged only for the days the money is in use. The planner on our homepage compares this over a full year with a 12-month term loan, which is charged for all 365 days whether you need the money or not. Your actual terms depend on the buyer, the tenor and the structure, and every cost is disclosed in writing before you sign.',
     ],
   },
   {

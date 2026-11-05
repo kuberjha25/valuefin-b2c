@@ -37,11 +37,28 @@ const VALS: { v: number; l: string; plus?: boolean }[] = [
   { v: 100, l: '₹100Cr+', plus: true },
 ];
 
-/* Interest illustration. Both rates are % a year. The term loan is modelled at the same rate over
-   12 equal monthly instalments (the shortest typical term), so the only difference is time. */
-const VF_RATE = 18;
-const TL_RATE = 18;
-const TL_MONTHS = 12;
+/* Interest illustration over a full year. One assumed rate (% a year) is used on both sides, so the
+   only difference is the number of days the money is charged for:
+   - Valuefin: the borrower chooses how many times the facility is used in a year and for how many days each time, and
+     it is charged only while the money is in use.
+   - Term loan: a 12-month agreement, charged for all 365 days whether the money is needed or not.
+   The rate is used in the sums only. It is never printed anywhere on the site. */
+const ILLUSTRATION_RATE = 18;
+const YEAR = 365;
+/** Days between one rotation and the next (documents and the new draw). */
+const ROTATION_GAP = 5;
+/** What the borrower can try in the interest illustration: how many times the facility is used in a year, and for how many days each time. */
+const INT_ROTS = [1, 2, 3, 4, 5];
+const INT_DAYS = [30, 45, 60, 90, 120];
+/** The bar keeps one slot for each possible rotation, so changing the choice animates smoothly. */
+const MAX_ROTATIONS = INT_ROTS[INT_ROTS.length - 1];
+/** Most rotations of this many days that fit in a year, counting the gap after each one. This keeps rotations x days below 365. */
+const fitRotations = (days: number) => Math.max(1, Math.min(MAX_ROTATIONS, Math.floor(YEAR / (days + ROTATION_GAP))));
+/** The illustration starts from the payback period chosen in the planner, with as many rotations as fit. */
+const startFrom = (pay: number) => {
+  const idays = INT_DAYS.reduce((a, b) => (Math.abs(b - pay) < Math.abs(a - pay) ? b : a));
+  return { idays, rot: fitRotations(idays) };
+};
 
 const NEED_MIN = 25;
 const NEED_MAX = 500;
@@ -69,14 +86,6 @@ function fI(l: number): string {
   return `₹${Math.round(l * 100000).toLocaleString('en-IN')}`;
 }
 
-/** Total interest on a loan repaid in equal monthly instalments. */
-function termInt(g: number, ratePct: number, n: number): number {
-  const r = ratePct / 1200;
-  if (!r) return 0;
-  const f = Math.pow(1 + r, n);
-  return ((g * r * f) / (f - 1)) * n - g;
-}
-
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 interface State {
@@ -85,9 +94,12 @@ interface State {
   cash: number;
   pay: number;
   vi: number;
+  /** Interest illustration: rotations in a year, and days in each rotation. */
+  rot: number;
+  idays: number;
 }
 
-const INITIAL: State = { r: 'po', need: 100, cash: 30, pay: 60, vi: 1 };
+const INITIAL: State = { r: 'po', need: 100, cash: 30, pay: 60, vi: 1, ...startFrom(60) };
 
 function compute(S: State, mounted: boolean) {
   const need = S.need;
@@ -109,12 +121,26 @@ function compute(S: State, mounted: boolean) {
 
   const g = gap;
   const dil = (g / (val.v * 100 + g)) * 100;
-  const vfI = ((g * VF_RATE) / 100 * S.pay) / 365;
-  const tlI = termInt(g, TL_RATE, TL_MONTHS);
-  const top = Math.max(vfI, tlI) || 1;
-  const sv = tlI - vfI;
 
-  const cyc = Math.max(1, Math.floor(365 / (S.pay + 5)));
+  // Rotations the planner's payback period allows in a year. Used for the capital figures only.
+  const cyc = Math.max(1, Math.floor(YEAR / (S.pay + ROTATION_GAP)));
+
+  // Interest illustration. The borrower picks the rotations and the days in each; the days the money is
+  // charged for are rotations x days. fitRotations keeps that below 365, so the term loan always costs more.
+  const idays = S.idays;
+  const fit = fitRotations(idays);
+  const rot = Math.min(S.rot, fit);
+  const vfDays = rot * idays;
+  const interest = (days: number) => (((g * ILLUSTRATION_RATE) / 100) * days) / YEAR;
+  const vfI = interest(vfDays);
+  const tlI = interest(YEAR);
+  // One bar segment per rotation, laid out on a 365-day scale. Unused slots collapse to nothing.
+  const pct = (days: number) => Math.round((days / YEAR) * 100000) / 1000;
+  const vfSegs = Array.from({ length: MAX_ROTATIONS }, (_, k) => ({
+    left: Math.min(100, pct(k * (idays + ROTATION_GAP))),
+    width: k < rot ? pct(idays) : 0,
+  }));
+
   const rep = 5 + S.pay;
   const d = (n: number) => (mounted ? ` · ${dayLabel(n)}` : '');
 
@@ -133,16 +159,20 @@ function compute(S: State, mounted: boolean) {
       S.r === 'grow'
         ? `dilution. Debt sized to your verified revenue and repaid inside ${S.pay} days on a plan we agree.`
         : `dilution. Debt sized to the cash flow, in use for ${S.pay} days, then gone. Repay when the receivable lands.`,
-    intVfL: `Valuefin, in use for ${S.pay} days`,
+    rot,
+    rotFit: fit,
+    intFit: `At ${idays} days each, ${fit >= MAX_ROTATIONS ? 'all' : 'up to'} ${fit} rotation${fit === 1 ? '' : 's'} fit${fit === 1 ? 's' : ''} in a year, with about ${ROTATION_GAP} days between them.`,
+    intVfL: rot > 1 ? `Valuefin, ${rot} rotations of ${idays} days` : `Valuefin, used once for ${idays} days`,
+    intVfS: rot > 1 ? `Interest for ${vfDays} days, nothing in between` : `Interest for ${vfDays} days only`,
     intVf: fI(vfI),
     intTl: fI(tlI),
-    intVfW: (vfI / top) * 100,
-    intTlW: (tlI / top) * 100,
-    intSave: sv > 0 ? fI(sv) : 'Similar',
-    intSaveT:
-      sv > 0
-        ? `${Math.round((sv / tlI) * 100)}% less interest on the same ${fA(g)}, because you pay only for the days you use it.`
-        : 'At this tenor the interest is similar. The difference is a cleaner balance sheet and repaying on the day the cash lands.',
+    vfSegs,
+    intSave: fI(tlI - vfI),
+    intSaveT: `Interest runs for ${vfDays} of the ${YEAR} days. A term loan charges for all ${YEAR}, whether you need the money or not. Your interest follows the days you use the money, so it stays below the term loan's.`,
+    // No rate is printed in either of these. They explain, in days, why the term loan costs more per day of real use,
+    // and why a lower quoted rate on the term loan can still leave the two close.
+    intEffT: `With Valuefin you pay interest for ${vfDays} days of use. A term loan makes you pay for ${YEAR}, so every day you actually use the money costs more. That makes its effective rate higher, and the gap widens the less you use the money.`,
+    intLowT: `Even if a term loan is quoted at a lower rate, you can end up paying about the same, because Valuefin charges interest for ${vfDays} days and the term loan for ${YEAR}. The fewer days you use the money, the lower the term loan's quoted rate would have to be to match.`,
     m1v: fA(Math.round(need * cyc)),
     m2v: `${cyc}×`,
     timeline: [
@@ -220,16 +250,19 @@ export function Planner() {
     void fill.offsetWidth;
     fill.style.transition = '';
 
+    // Start once a quarter of the planner is on screen, or a quarter of a screen's height of it. The planner is
+    // taller than four screens on a phone, so a share of its own height could never be reached there.
     const io = new IntersectionObserver(
       (entries) => {
         for (const en of entries) {
-          if (en.isIntersecting) {
+          if (!en.isIntersecting) continue;
+          if (en.intersectionRatio >= 0.25 || en.intersectionRect.height >= window.innerHeight * 0.25) {
             play();
             io.unobserve(en.target);
           }
         }
       },
-      { threshold: 0.25 },
+      { threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.25] },
     );
     io.observe(root);
     return () => {
@@ -240,15 +273,19 @@ export function Planner() {
   }, [play]);
 
   const pickReason = (r: ReasonKey) => {
-    setS((s) => ({ ...s, r, pay: RS[r].def }));
+    setS((s) => ({ ...s, r, pay: RS[r].def, ...startFrom(RS[r].def) }));
     setTick((t) => t + 1);
     play();
   };
   const pickPay = (pay: number) => {
-    setS((s) => ({ ...s, pay }));
+    setS((s) => ({ ...s, pay, ...startFrom(pay) }));
     setTick((t) => t + 1);
     play();
   };
+  // Interest illustration. A rotation count that does not fit in the year is not offered (the chip is disabled),
+  // and choosing longer rotations brings the count down to the most that fit.
+  const pickRot = (rot: number) => setS((s) => ({ ...s, rot: Math.min(rot, fitRotations(s.idays)) }));
+  const pickIntDays = (idays: number) => setS((s) => ({ ...s, idays, rot: Math.min(s.rot, fitRotations(idays)) }));
   const pickVal = (vi: number) => {
     setS((s) => ({ ...s, vi }));
     setTick((t) => t + 1);
@@ -429,9 +466,56 @@ export function Planner() {
       <div className="pl-int" id="plInt" hidden={!o.show}>
         <div className="int-head">
           <span className="int-title">
-            <b>Interest, side by side</b> on the same amount
+            <b>Interest over a full year</b> on the same amount
           </span>
-          <span className="int-assume">Same 18% a year on both</span>
+          <span className="int-assume">Same rate on both</span>
+        </div>
+        <p className="int-lead">
+          {`Choose how many times you use the money in a year and for how many days each time. Valuefin charges interest only for those days. A 12-month term loan charges for all ${YEAR}.`}
+        </p>
+        <div className="int-ctl">
+          <div className="grp">
+            <span className="glabel" id="intRotL">
+              Rotations in a year
+            </span>
+            <div className="chips" id="intRot" role="group" aria-labelledby="intRotL" aria-describedby="intFit">
+              {INT_ROTS.map((n) => (
+                <button
+                  type="button"
+                  key={n}
+                  className={'chip' + (n === o.rot ? ' on' : '')}
+                  data-n={n}
+                  aria-pressed={n === o.rot}
+                  disabled={n > o.rotFit}
+                  onClick={() => pickRot(n)}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="grp">
+            <span className="glabel" id="intDaysL">
+              Days in each rotation
+            </span>
+            <div className="chips" id="intDays" role="group" aria-labelledby="intDaysL">
+              {INT_DAYS.map((d) => (
+                <button
+                  type="button"
+                  key={d}
+                  className={'chip' + (d === S.idays ? ' on' : '')}
+                  data-d={d}
+                  aria-pressed={d === S.idays}
+                  onClick={() => pickIntDays(d)}
+                >
+                  {d} days
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="int-fit" id="intFit">
+            {o.intFit}
+          </p>
         </div>
         <div className="int-grid">
           <div className="int-bars">
@@ -439,19 +523,27 @@ export function Planner() {
               <div className="int-l">
                 <span id="intVfL">{o.intVfL}</span>
                 <em id="intVf">{o.intVf}</em>
+                <small id="intVfS">{o.intVfS}</small>
               </div>
-              <div className="int-track">
-                <i id="intVfBar" style={{ width: `${o.intVfW}%` }} />
+              <div className="int-track seg" aria-hidden="true">
+                {o.vfSegs.map((s, i) => (
+                  <i key={i} style={{ left: `${s.left}%`, width: `${s.width}%` }} />
+                ))}
               </div>
             </div>
             <div className="int-row tl">
               <div className="int-l">
-                <span>Term loan, 12+ months</span>
+                <span>Term loan, 12 months</span>
                 <em id="intTl">{o.intTl}</em>
+                <small>{`Fixed term, interest for all ${YEAR} days`}</small>
               </div>
-              <div className="int-track">
-                <i id="intTlBar" style={{ width: `${o.intTlW}%` }} />
+              <div className="int-track seg" aria-hidden="true">
+                <i style={{ left: 0, width: '100%' }} />
               </div>
+            </div>
+            <div className="int-axis" aria-hidden="true">
+              <span>Day 0</span>
+              <span>{`Day ${YEAR}`}</span>
             </div>
           </div>
           <div className="int-save">
@@ -462,8 +554,22 @@ export function Planner() {
             </span>
           </div>
         </div>
+        <div className="int-why">
+          <div className="iw">
+            <span className="is-l">Effective rate on the term loan</span>
+            <span className="is-t" id="intEffT">
+              {o.intEffT}
+            </span>
+          </div>
+          <div className="iw">
+            <span className="is-l">If the term loan rate is lower</span>
+            <span className="is-t" id="intLowT">
+              {o.intLowT}
+            </span>
+          </div>
+        </div>
         <p className="int-note">
-          // Valuefin: 18% a year, charged only for the days the money is in use. Term loan: the same 18% a year over 12 months with equal monthly instalments. A longer term costs more. Illustrative and interest only. Fees and taxes are not included on either side.
+          {`// Illustrative and interest only. Both sides use the same rate on the same amount, so the only difference is the number of days. Valuefin is charged only while the money is in use, with about ${ROTATION_GAP} days between rotations. The term loan is a 12-month loan with the amount outstanding for the full term. Fees and taxes are not included on either side. Actual rates, fees and terms will change the result.`}
         </p>
       </div>
 
