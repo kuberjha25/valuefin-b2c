@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 
 const PHRASES = [
-  'funding a ₹60L Blinkit purchase order for 60 days_',
+  'funding a Blinkit purchase order for 60 days_',
   'bridging a Zepto settlement that lands on day 45_',
-  'stocking up for the festive sale without a round_',
+  'stocking up for a demand spike without a round_',
   'growing the company on your own terms_',
 ];
 

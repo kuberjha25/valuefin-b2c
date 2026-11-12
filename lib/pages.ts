@@ -59,7 +59,7 @@ export const PAGES: Record<PageKey, PageDef> = {
     name: 'Quick Cash',
     title: 'Quick Cash: Purchase order and settlement finance',
     description:
-      'Quick Cash funds marketplace settlements, purchase orders and invoices. 25 lakh to 5 crore for 30 to 120 days, repaid when the buyer pays.',
+      'Quick Cash funds marketplace settlements, purchase orders and invoices. for 30 to 120 days, repaid when the buyer pays, with top-ups as you grow.',
     schemaType: 'WebPage',
     priority: 0.9,
     changeFrequency: 'monthly',
@@ -75,7 +75,7 @@ export const PAGES: Record<PageKey, PageDef> = {
     name: 'Rocket Fuel',
     title: 'Rocket Fuel: Growth loans for VC-backed startups',
     description:
-      'Rocket Fuel is 25 lakh to 5 crore of growth capital for VC-backed companies, for 90 to 180 days. Inventory, marketing, expansion and bridge loans. No dilution.',
+      'Rocket Fuel is growth capital for VC-backed companies, for 90 to 180 days. Inventory, marketing, expansion and bridge loans. No dilution.',
     schemaType: 'WebPage',
     priority: 0.9,
     changeFrequency: 'monthly',

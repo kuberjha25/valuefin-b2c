@@ -37,7 +37,7 @@ function CaseShapes() {
     <section className="sec">
       <div className="wrap">
         <div className="notice rv">
-          // ILLUSTRATIVE. These are representative case shapes, not specific transactions. Figures are rounded bands and sectors are generalised to protect borrower confidentiality.
+          // ILLUSTRATIVE. These are representative case shapes, not specific transactions. Figures are rounded bands and sectors are generalised to protect borrower confidentiality. These are illustrative examples and do not promise a loan of that amount.
         </div>
         <div className="dbook">
           <div className="dcase rv">
@@ -54,7 +54,9 @@ function CaseShapes() {
                 {" "}
                 <span className="dchip">Purchase order financing</span>
                 {" "}
-                <span className="dchip">₹50L band</span>
+                <span className="dchip">₹3Cr band</span>
+                {" "}
+                <span className="dchip">Multiple top-ups</span>
                 {" "}
                 <span className="dchip">60-day cycles</span>
                 {" "}
@@ -69,11 +71,11 @@ function CaseShapes() {
                 </div>
                 <div className="dcol">
                   <b>The structure</b>
-                  <p>A purchase order facility drawn per production lot, with the marketplace settlement routed to a designated account so each draw repaid itself.</p>
+                  <p>A purchase order facility drawn per production lot, with the marketplace settlement routed to a designated account so each draw repaid itself. After each completed rotation the limit was raised with a top-up.</p>
                 </div>
                 <div className="dcol">
                   <b>The outcome</b>
-                  <p>The order shipped in full. Faster fulfilment brought larger purchase orders, and the facility was drawn again for each cycle.</p>
+                  <p>The order shipped in full. Faster fulfilment brought larger purchase orders, and we gave the startup multiple top-ups as it grew through its growth cycles with us.</p>
                 </div>
               </div>
             </div>
@@ -278,9 +280,9 @@ function CaseShapes() {
                 {" "}
                 <span className="dchip">Bridge loan</span>
                 {" "}
-                <span className="dchip">₹2Cr band</span>
+                <span className="dchip">₹50L band</span>
                 {" "}
-                <span className="dchip">90-day term</span>
+                <span className="dchip">120-day term</span>
                 {" "}
                 <span className="dchip st">Repaid ✓</span>
               </div>

@@ -46,6 +46,9 @@ export function Footer() {
               Registered office: <Filled value={site.registeredOffice} />
             </span>
             <span>
+              Phone: <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a>
+            </span>
+            <span>
               Grievance officer: <Filled value={site.grievanceOfficer} />
             </span>
           </div>
@@ -60,7 +63,7 @@ export function Footer() {
           </p>
           <div className="f-base">
             <span>
-              © <Year initial={new Date().getFullYear()} /> VALUEFIN CREDIT PRIVATE LIMITED
+              © <Year initial={new Date().getFullYear()} /> VALUEFIN INDIA CREDIT SERVICES PRIVATE LIMITED
             </span>
             <span>MADE IN INDIA · BUILT FOR FOUNDERS</span>
           </div>

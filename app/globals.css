@@ -87,8 +87,9 @@ p{font-size:1.02rem}
 .nav.sc{background:rgba(244,242,235,.86);backdrop-filter:blur(14px);border-bottom-color:var(--rule)}
 .nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:700;font-size:1.02rem;color:var(--ink)}
-.brand .g{width:28px;height:28px;flex:0 0 auto}
-.brand b{color:var(--teal)}
+.brand .g{width:41px;height:30px;flex:0 0 auto}
+.brand .mv{fill:var(--navy)}
+.hero-what{font-size:1rem;line-height:1.5;font-weight:400;color:var(--sub);margin:-8px 0 16px}
 .nlinks{display:flex;gap:22px;align-items:center}
 .nlinks a{font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;color:var(--sub);transition:color .2s;padding-bottom:3px;border-bottom:2px solid transparent}
 .nlinks a:hover{color:var(--ink)}
@@ -159,7 +160,7 @@ p{font-size:1.02rem}
 .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
 .stat{padding:34px 26px;border-right:1px dashed var(--rule)}
 .stat:last-child{border-right:0}
-.stat .n{font-family:var(--disp);font-weight:700;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1}
+.stat .n{white-space:nowrap;font-family:var(--disp);font-weight:700;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1}
 .stat .n em{font-style:normal;color:var(--teal);font-size:.55em}
 .stat.gold .n em{color:var(--gold)}
 .stat .l{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);margin-top:10px}
@@ -571,15 +572,16 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 /* ---------- logo lockup (bigger, more prominent) ---------- */
 .nav-in{padding-top:14px;padding-bottom:14px}
 .brand{gap:13px;font-size:inherit}
-.brand .g{width:48px;height:48px;flex:0 0 auto;filter:drop-shadow(0 8px 16px rgba(10,29,46,.3))}
+.brand .g{width:52px;height:38px;flex:0 0 auto;overflow:visible}
 .brand .bt{display:flex;flex-direction:column;line-height:1}
-.brand .bn{font-family:var(--disp);font-weight:700;font-size:1.65rem;letter-spacing:-.02em;color:var(--ink)}
+.brand .bn{font-family:var(--disp);font-weight:500;font-size:1.22rem;letter-spacing:.2em;color:var(--ink);margin-right:-.2em}
 .brand .bn b{color:var(--teal)}
-.brand .bs{font-family:var(--mono);font-size:.54rem;letter-spacing:.17em;text-transform:uppercase;color:var(--sub);margin-top:7px;white-space:nowrap}
+.brand .bs{display:block;font-family:var(--mono);font-size:.56rem;letter-spacing:.17em;text-transform:uppercase;color:var(--sub);margin-top:7px;white-space:nowrap}
 .brand-f .bn{color:var(--d-txt)}
 .brand-f .bn b{color:var(--teal-b)}
+.brand-f .mv{fill:var(--d-txt)}
 .brand-f .bs{color:var(--d-dim)}
-.brand-f .g{width:54px;height:54px}
+.brand-f .g{width:58px;height:42px}
 
 /* ---------- nav: burger earlier because the logo is larger ---------- */
 .nlinks .nl-cta{display:none}
@@ -592,9 +594,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 }
 @media(max-width:720px){
   .nav-r .btn{display:none}
-  .brand .g{width:42px;height:42px}
-  .brand .bn{font-size:1.4rem}
-  .brand .bs{font-size:.5rem;letter-spacing:.13em}
+  .brand .g{width:44px;height:32px}
+  .brand .bn{font-size:1.02rem}
+  .brand .bs{font-size:.5rem;letter-spacing:.12em}
 }
 
 /* ---------- hero extras ---------- */

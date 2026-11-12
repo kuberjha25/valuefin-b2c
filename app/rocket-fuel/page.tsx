@@ -32,7 +32,7 @@ function PageHero() {
           When there is no single purchase order to fund, there is still a plan: stock for the season, a marketing push, a new city, a bridge to your next equity round. Rocket Fuel gives VC-backed companies 90 to 180 days of working capital, sized off verified revenue, with your cap table untouched.
         </p>
         <div className="ptags">
-          <span className="ptag hl">₹25L – ₹5Cr</span>
+          <span className="ptag hl">Top-ups as you grow</span>
           {" "}
           <span className="ptag">90 – 180 days</span>
           {" "}

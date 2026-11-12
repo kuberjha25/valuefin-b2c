@@ -8,7 +8,7 @@ const ITEMS = [
   'Our suppliers want payment upfront, and the marketplace pays us 30 to 120 days later.',
   'Our money is split between marketing and taking more purchase orders, and each one starves the other.',
   'We make a product with real demand, but supply cannot keep up because raw material needs cash.',
-  'A festive sale is coming, we need 90 to 120 days of stock, and a term loan of 12+ months makes no sense.',
+  'We need 90 to 120 days of stock for a demand spike, and a term loan of 12+ months makes no sense.',
   'We do not want to sell equity just to fund orders we already have.',
 ];
 

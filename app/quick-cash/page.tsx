@@ -32,7 +32,7 @@ function PageHero() {
           Short-tenor working capital against purchase orders, marketplace settlements and invoices from large buyers. Fund the order, ship it, and repay the day the money lands.
         </p>
         <div className="ptags">
-          <span className="ptag hl">₹25L – ₹5Cr</span>
+          <span className="ptag hl">Top-ups as you grow</span>
           {" "}
           <span className="ptag">30 – 120 days</span>
           {" "}
@@ -73,20 +73,20 @@ function Growth() {
       <div className="wrap two-col">
         <div className="ladder-wrap rv">
           <div className="po-ladder">
-            <div className="lad" style={{ '--h': "12%" } as CSSProperties}>
+            <div className="lad" style={{ '--h': "13%" } as CSSProperties}>
               <span className="lv">₹1Cr.</span>
               <div className="lb" />
             </div>
-            <div className="lad" style={{ '--h': "35%" } as CSSProperties}>
-              <span className="lv">₹2.5Cr.</span>
+            <div className="lad" style={{ '--h': "25%" } as CSSProperties}>
+              <span className="lv">₹2Cr.</span>
               <div className="lb" />
             </div>
-            <div className="lad" style={{ '--h': "68%" } as CSSProperties}>
-              <span className="lv">₹5Cr.</span>
+            <div className="lad" style={{ '--h': "50%" } as CSSProperties}>
+              <span className="lv">₹4Cr.</span>
               <div className="lb" />
             </div>
             <div className="lad" style={{ '--h': "100%" } as CSSProperties}>
-              <span className="lv">₹10Cr.</span>
+              <span className="lv">₹8Cr.</span>
               <div className="lb" />
             </div>
           </div>
@@ -96,14 +96,14 @@ function Growth() {
             <span>Cycle 2</span>
             <span>Cycle 3</span>
           </div>
-          <p className="ladder-cap">// Illustrative example only. Purchase orders carried per cycle as fulfilment speeds up and the marketplace sends more.</p>
+          <p className="ladder-cap">// Illustrative example only. It does not promise a loan of these amounts. Purchase orders carried per cycle as fulfilment speeds up and the marketplace sends more.</p>
         </div>
         <div className="rv">
           <span className="eyebrow gold">// Rotation is the growth engine</span>
           <span className="illus">Illustrative example</span>
-          <h2 style={{ margin: "14px 0 16px" }}>From ₹1Cr. of purchase orders to ₹10Cr. in a few cycles.</h2>
+          <h2 style={{ margin: "14px 0 16px" }}>From ₹1Cr. of purchase orders to ₹8Cr. in a few cycles.</h2>
           <p className="sub">
-            With the right working capital and debt structure, a brand can move from ₹1Cr. of purchase orders to ₹10Cr. in a few cycles. The marketplace sees orders filled quickly and completely, and sends bigger ones. Each cycle you repay, the capital goes straight back into the next.
+            With the right working capital and debt structure, a brand can move from ₹1Cr. of purchase orders to ₹8Cr. in a few cycles. The marketplace sees orders filled quickly and completely, and sends bigger ones. Each cycle you repay, the capital goes straight back into the next.
           </p>
           <p className="sub" style={{ marginTop: "14px" }}>
             That only works when the debt is short. If you are locked into a long loan, each rotation of the same rupee earns you nothing extra.
@@ -111,7 +111,7 @@ function Growth() {
           <div className="caveat">
             <b>This is only an illustrative example.</b>
             {" "}
-            It shows how faster rotation can scale purchase orders. Actual growth depends on your product, the marketplace, demand and repayment history, and is not a promise of results.
+            It does not promise a loan of these amounts. It shows how faster rotation can scale purchase orders. Actual growth depends on your product, the marketplace, demand and repayment history, and is not a promise of results.
           </div>
         </div>
       </div>

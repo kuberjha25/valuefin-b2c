@@ -29,17 +29,17 @@ export interface SiteConfig {
 
 export const site: SiteConfig = {
   name: 'Valuefin',
-  legalName: 'Valuefin Credit Private Limited',
+  legalName: 'Valuefin India Credit Services Private Limited',
   tagline: 'Working capital for new-age India. Never from your cap table.',
   description:
     'Valuefin is an RBI-registered NBFC financing quick-commerce and e-commerce settlements, purchase orders and invoices from large buyers. Working capital with no dilution.',
   email: 'sonali@valuefin.in',
-  phone: '',
-  cor: '',
-  cin: '',
-  registeredOffice: '',
-  grievanceOfficer: '',
-  disclosureConfirmed: false,
+  phone: '+91 98723 19971',
+  cor: 'B-13.02349',
+  cin: 'U65921MH1996PTC324138',
+  registeredOffice: '302-C Regency Park CHS Ltd., Nahar Amrit Shakti, Off Chandivali Farm Road, Mumbai, Maharashtra, India, 400072',
+  grievanceOfficer: 'Saavy Sharma, accounts@valuefin.in, +91 98723 19971',
+  disclosureConfirmed: true,
   locale: 'en_IN',
   themeColor: '#F4F2EB',
 };

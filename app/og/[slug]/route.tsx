@@ -49,23 +49,24 @@ export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <svg width="64" height="64" viewBox="0 0 48 48" fill="none">
+          <svg width="88" height="64" viewBox="0 0 205.5 149.5" fill="none">
             <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#12304A" />
-                <stop offset="1" stopColor="#0A1D2E" />
+              <linearGradient id="g" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stopColor="#087A68" />
+                <stop offset="0.45" stopColor="#17B596" />
+                <stop offset="1" stopColor="#0C9E85" />
               </linearGradient>
             </defs>
-            <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#g)" stroke="#1BD9B5" strokeWidth="1.8" />
-            <path d="M13 15l11 20 11-20" stroke="#1BD9B5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="35" cy="14" r="3.6" fill="#E9BB60" />
+            <path d="M0 0H44.5Q37 3 37 12.2L71.5 91L60 117L11.2 9.5Q6 3 0 0Z" fill="#0A1D2E" />
+            <path d="M128.5 0H205.2L194.2 21.7H135L133.7 22.7L75.8 149.3L64.7 123.7L114.3 11.8Q117 2.5 128.5 0Z" fill="url(#g)" />
+            <path d="M126 53H181.5L171 73H117Z" fill="url(#g)" />
           </svg>
-          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 18 }}>
-            <div style={{ display: 'flex', fontFamily: 'Unbounded', fontSize: 38, color: INK, letterSpacing: -1 }}>
-              Value<span style={{ color: TEAL }}>fin</span>
+          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 20 }}>
+            <div style={{ display: 'flex', fontFamily: 'Unbounded', fontSize: 34, color: INK, letterSpacing: 7 }}>
+              VALUE<span style={{ color: TEAL }}>FIN</span>
             </div>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 15, letterSpacing: 3, color: SUB, marginTop: 6 }}>
-              RBI-REGISTERED NBFC
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 15, letterSpacing: 3, color: SUB, marginTop: 8 }}>
+              STARTUP-SPEED CAPITAL
             </div>
           </div>
         </div>

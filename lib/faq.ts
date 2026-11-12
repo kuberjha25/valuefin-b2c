@@ -47,7 +47,7 @@ export const FAQ: FaqItem[] = [
   {
     q: 'What sizes and tenors do you write?',
     a: [
-      'Quick Cash is ₹25 lakh to ₹5 crore for 30 to 120 days. Rocket Fuel is ₹25 lakh to ₹5 crore for 90 to 180 days, for VC-backed companies.',
+      "Facility size depends on the startup's stage, its verified orders or revenue and its repayment record, and it can be topped up as the business grows through its growth cycles. Quick Cash runs for 30 to 120 days. Rocket Fuel runs for 90 to 180 days, for VC-backed companies.",
     ],
   },
   {

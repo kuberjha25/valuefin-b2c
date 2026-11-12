@@ -105,7 +105,7 @@ function WhyFundsRoute() {
           </div>
           <div className="trow">
             <span className="k">Ticket</span>
-            <span className="v">₹25L – ₹5Cr</span>
+            <span className="v">Sized to the company, with top-ups</span>
           </div>
           <div className="trow">
             <span className="k">Tenor</span>

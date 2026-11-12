@@ -205,7 +205,7 @@ function Discipline() {
             Zero NPAs since inception is method, not luck. Before we wire, we underwrite the specific cash event that repays the facility: the marketplace settlement, the buyer&apos;s payment, the plan we agreed on. If we cannot see what pays us back, we do not lend.
           </p>
           <p>
-            A lender that underwrites carefully is still here for your tenth cycle. Valuefin Credit Private Limited is an RBI-registered NBFC-ICC, with proper documentation and a real grievance process.
+            A lender that underwrites carefully is still here for your tenth cycle. Valuefin India Credit Services Private Limited is an RBI-registered NBFC-ICC, with proper documentation and a real grievance process.
           </p>
         </div>
         <div className="band-vis rv">

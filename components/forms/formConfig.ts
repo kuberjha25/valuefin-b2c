@@ -168,7 +168,7 @@ const founder: FormConfig = {
             name: 'turnover',
             label: 'Turnover in the last financial year',
             required: true,
-            options: ['Under ₹1Cr', '₹1Cr to ₹5Cr', '₹5Cr to ₹25Cr', '₹25Cr to ₹100Cr', 'Above ₹100Cr'],
+            options: ['Under ₹1Cr', '₹1Cr to ₹10Cr', '₹10Cr to ₹50Cr', '₹50Cr to ₹100Cr', 'Above ₹100Cr'],
           },
         ],
         {
@@ -199,7 +199,7 @@ const founder: FormConfig = {
             name: 'amount',
             label: 'How much funding do you need?',
             required: true,
-            options: ['₹25L to ₹50L', '₹50L to ₹1Cr', '₹1Cr to ₹2.5Cr', '₹2.5Cr to ₹5Cr', 'Not sure yet'],
+            options: ['Under ₹50L', '₹50L to ₹1Cr', '₹1Cr to ₹3Cr', 'Above ₹3Cr', 'Not sure yet'],
           },
           {
             type: 'select',

@@ -42,8 +42,7 @@ const VALS: { v: number; l: string; plus?: boolean }[] = [
    - Valuefin: the borrower chooses how many times the facility is used in a year and for how many days each time, and
      it is charged only while the money is in use.
    - Term loan: a 12-month agreement, charged for all 365 days whether the money is needed or not.
-   The rate is used in the sums only. It is never printed anywhere on the site. */
-const ILLUSTRATION_RATE = 18;
+   No interest rate or interest amount is shown anywhere on the site. The panel compares days only. */
 const YEAR = 365;
 /** Days between one rotation and the next (documents and the new draw). */
 const ROTATION_GAP = 5;
@@ -61,9 +60,9 @@ const startFrom = (pay: number) => {
 };
 
 const NEED_MIN = 25;
-const NEED_MAX = 500;
+const NEED_MAX = 100;
 const CASH_MIN = 0;
-const CASH_MAX = 300;
+const CASH_MAX = 100;
 
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -79,12 +78,6 @@ function fA(l: number): string {
   return `₹${Math.round((l / 100) * 100) / 100}Cr`;
 }
 
-/** Interest amount in lakhs, with a rupee figure for very small amounts. */
-function fI(l: number): string {
-  if (l >= 100) return `₹${Math.round((l / 100) * 100) / 100}Cr`;
-  if (l >= 1) return `₹${Math.round(l * 100) / 100}L`;
-  return `₹${Math.round(l * 100000).toLocaleString('en-IN')}`;
-}
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -99,7 +92,7 @@ interface State {
   idays: number;
 }
 
-const INITIAL: State = { r: 'po', need: 100, cash: 30, pay: 60, vi: 1, ...startFrom(60) };
+const INITIAL: State = { r: 'po', need: 80, cash: 30, pay: 60, vi: 1, ...startFrom(60) };
 
 function compute(S: State, mounted: boolean) {
   const need = S.need;
@@ -131,9 +124,6 @@ function compute(S: State, mounted: boolean) {
   const fit = fitRotations(idays);
   const rot = Math.min(S.rot, fit);
   const vfDays = rot * idays;
-  const interest = (days: number) => (((g * ILLUSTRATION_RATE) / 100) * days) / YEAR;
-  const vfI = interest(vfDays);
-  const tlI = interest(YEAR);
   // One bar segment per rotation, laid out on a 365-day scale. Unused slots collapse to nothing.
   const pct = (days: number) => Math.round((days / YEAR) * 100000) / 1000;
   const vfSegs = Array.from({ length: MAX_ROTATIONS }, (_, k) => ({
@@ -164,10 +154,10 @@ function compute(S: State, mounted: boolean) {
     intFit: `At ${idays} days each, ${fit >= MAX_ROTATIONS ? 'all' : 'up to'} ${fit} rotation${fit === 1 ? '' : 's'} fit${fit === 1 ? 's' : ''} in a year, with about ${ROTATION_GAP} days between them.`,
     intVfL: rot > 1 ? `Valuefin, ${rot} rotations of ${idays} days` : `Valuefin, used once for ${idays} days`,
     intVfS: rot > 1 ? `Interest for ${vfDays} days, nothing in between` : `Interest for ${vfDays} days only`,
-    intVf: fI(vfI),
-    intTl: fI(tlI),
+    intVf: `${vfDays} days`,
+    intTl: `${YEAR} days`,
     vfSegs,
-    intSave: fI(tlI - vfI),
+    intSave: `${YEAR - vfDays} fewer days`,
     intSaveT: `Interest runs for ${vfDays} of the ${YEAR} days. A term loan charges for all ${YEAR}, whether you need the money or not. Your interest follows the days you use the money, so it stays below the term loan's.`,
     // No rate is printed in either of these. They explain, in days, why the term loan costs more per day of real use,
     // and why a lower quoted rate on the term loan can still leave the two close.
@@ -338,6 +328,7 @@ export function Planner() {
             aria-label="Working capital needed"
             onChange={(e) => slide({ need: parseInt(e.target.value, 10) })}
           />
+          <p className="hint2">Illustrative amount. It does not promise a loan of this size.</p>
         </div>
         <div className="grp">
           <span className="glabel">Cash you already have for it</span>
@@ -630,7 +621,7 @@ export function Planner() {
           </div>
         </div>
         <p className="pl-note">
-          // Illustrative mechanics, not an offer. *Documentation typically completes about 3 days after the first conversation and money follows about 2 days later. Timing depends on how quickly documents arrive. Equity dilution is shown as the gap divided by the company value plus the gap.
+          // Illustrative mechanics, not an offer. The amounts set above are examples and do not promise a loan of that amount. *Documentation typically completes about 3 days after the first conversation and money follows about 2 days later. Timing depends on how quickly documents arrive. Equity dilution is shown as the gap divided by the company value plus the gap.
         </p>
       </div>
     </div>

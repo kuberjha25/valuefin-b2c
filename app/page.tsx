@@ -44,6 +44,7 @@ function Hero() {
             {" "}
             OPEN MON TO SAT · RBI-REGISTERED NBFC
           </span>
+          <p className="hero-what">We give working capital loans to VC-backed startups.</p>
           <h1>
             Grow the company{' '}
             <br />
@@ -55,18 +56,7 @@ function Hero() {
             <span className="caret" />
           </div>
           <p className="lead">
-            Orders from Blinkit, Zepto, Amazon and large buyers are the best problem a founder can have, until the cash to fulfil them runs out. We finance that gap, from a
-            {" "}
-            <b>₹60L Blinkit order</b>
-            {" "}
-            to a
-            {" "}
-            <b>₹3Cr festive stock-up</b>
-            , with
-            {" "}
-            <b>no dilution</b>
-            {" "}
-            and in about five days. We are not a marketplace. We are our own NBFC and we lend from our own balance sheet.
+            Orders from Blinkit, Zepto, Amazon and large buyers are the best problem a founder can have, until the cash to fulfil them runs out. We finance that gap, starting from ₹25L and topping up across your growth cycles, with <b>no dilution</b> and in about five days. We are not a marketplace. We are our own NBFC and we lend from our own balance sheet.
           </p>
           <div className="hero-cta">
             <Link href="#planner" className="btn btn-solid mag">
@@ -493,7 +483,7 @@ function Topups() {
         <div className="rv">
           <span className="eyebrow gold">// Top-ups</span>
           <h2 style={{ margin: "14px 0 16px" }}>We grow alongside you.</h2>
-          <p className="sub">Your first facility is a starting point. As your business grows, what we can fund grows with it.</p>
+          <p className="sub">Your first facility is a starting point. As your business moves through its growth cycles, we add top-ups, and what we can fund grows with it, from your first orders to large facilities.</p>
           <div className="uselist">
             <span>A new geography</span>
             <span>Bulk inventory at a better price</span>
@@ -554,7 +544,7 @@ function Topups() {
             <span>Top-up</span>
           </div>
           <p className="ladder-cap">
-            // Illustrative example only. A top-up needs at least 2 completed rotations, and the limit depends on repayment history and business performance.
+            // Illustrative example only. It does not promise a loan of these amounts. A top-up needs at least 2 completed rotations, and the limit depends on repayment history and business performance.
           </p>
         </div>
       </div>
