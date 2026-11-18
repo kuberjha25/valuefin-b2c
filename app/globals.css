@@ -477,6 +477,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .cta-in{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap}
 .cta-in h2{color:var(--d-txt);max-width:560px}
 .cta-in p{color:var(--d-dim);margin-top:10px}
+.sec .cta-in h2{color:var(--ink)}
+.sec .cta-in p{color:var(--sub)}
 
 /* ============ FORM (apply) ============ */
 .apply-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:start}
